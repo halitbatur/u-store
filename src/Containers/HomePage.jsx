@@ -2,20 +2,21 @@ import axios from "axios";
 import React from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-
-const FETCH_INFO = {
-  products: "https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/",
-  categories:
-    "https://62286b649fd6174ca82321f1.mockapi.io/case-study/categories/",
-};
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { API_URLS } from "../constants/apiUrls.js";
 
 export default function HomePage() {
-  const fetchProducts = async () => {
-    const requests = Object.values(FETCH_INFO).map((url) => axios.get(url));
+  const navigate = useNavigate();
+  const fetchProductsWithCategories = async () => {
+    const requests = Object.values(API_URLS).map((url) => axios.get(url));
     return Promise.all(requests).then((res) => res.map((r) => r.data));
   };
 
-  const { data, isLoading, isError } = useQuery("homepage", fetchProducts);
+  const { data, isLoading, isError } = useQuery(
+    "homepage",
+    fetchProductsWithCategories
+  );
 
   console.log(data);
   return (
@@ -31,6 +32,9 @@ export default function HomePage() {
           ))}
         </div>
       )}
+      <Button variant="dark" size="lg" onClick={() => navigate("/create")}>
+        ADD ITEM
+      </Button>
     </div>
   );
 }
