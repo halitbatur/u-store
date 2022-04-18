@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { API_URLS } from "../constants/apiUrls.js";
+import { useNavigate } from "react-router";
 
 export default function NewProductPage() {
+  const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery("categories", () =>
     axios.get(API_URLS.categories).then((res) => res.data)
   );
@@ -22,10 +24,14 @@ export default function NewProductPage() {
   };
 
   const createProductMutation = () => {
-    axios.post(API_URLS.products, newProduct);
+    return axios.post(API_URLS.products, newProduct);
   };
 
-  const createProduct = useMutation(createProductMutation);
+  const createProduct = useMutation(createProductMutation, {
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
   // form to create new product
   const [validated, setValidated] = useState(false);
 
