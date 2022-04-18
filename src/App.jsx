@@ -6,11 +6,13 @@ import HomePage from "./Containers/HomePage";
 import NewProductPage from "./Containers/NewProductPage";
 import ProductPage from "./Containers/ProductPage";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
       <div
         className="App"
         style={{ background: "#ececec", minHeight: "100vh" }}

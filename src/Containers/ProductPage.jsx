@@ -8,7 +8,7 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const deleteProductMutation = () => {
-    axios.delete(
+    return axios.delete(
       `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/${id}`
     );
   };

@@ -9,15 +9,16 @@ import { API_URLS } from "../constants/apiUrls.js";
 export default function HomePage() {
   const navigate = useNavigate();
   const fetchProductsWithCategories = async () => {
+    console.log("IS FETCHING");
     const requests = Object.values(API_URLS).map((url) => axios.get(url));
     return Promise.all(requests).then((res) => res.map((r) => r.data));
   };
-
-  const { data, isLoading, isError } = useQuery(
+  console.log("hello there");
+  const { data, isLoading, isError, isStale } = useQuery(
     "homepage",
     fetchProductsWithCategories
   );
-
+  console.log(isStale);
   console.log(data);
   return (
     <div>
