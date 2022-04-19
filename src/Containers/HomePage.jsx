@@ -1,17 +1,12 @@
 import axios from "axios";
 import React from "react";
 import { useQuery } from "react-query";
-import {
-  Button,
-  Form,
-  InputGroup,
-  FormControl,
-  Spinner,
-} from "react-bootstrap";
+import { Form, InputGroup, FormControl, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { API_URLS } from "../constants/apiUrls.js";
+import { fetchProductsWithCategories } from "../utils/fetch";
 import ProductCard from "../Components/ProductCard.jsx";
 import { FaPlusCircle } from "react-icons/fa";
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [filter, setFilter] = React.useState("Categories");
@@ -30,14 +25,8 @@ export default function HomePage() {
     return () => clearTimeout(delaySearchResults);
   }, [searchBarValue]);
 
-  const fetchProductsWithCategories = async () => {
-    const requests = Object.values(API_URLS).map((url) => axios.get(url));
-    return Promise.all(requests).then((res) => res.map((r) => r.data));
-  };
-
-  const { data, isLoading } = useQuery(
-    "productsWithCategories",
-    fetchProductsWithCategories
+  const { data, isLoading } = useQuery("productsWithCategories", () =>
+    fetchProductsWithCategories()
   );
 
   return (

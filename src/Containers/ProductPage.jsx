@@ -1,33 +1,23 @@
 import React from "react";
 import { useParams } from "react-router";
 import { useMutation, useQuery } from "react-query";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { Spinner, Image, Button } from "react-bootstrap";
+import { fetchSingleProduct, deleteProduct } from "../utils/fetch";
 
 export default function ProductPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const fetchProduct = () => {
-    return axios
-      .get(
-        `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/${id}`
-      )
-      .then((res) => res.data);
-  };
-  const deleteProductMutation = () => {
-    return axios.delete(
-      `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/${id}`
-    );
-  };
-  const deleteProduct = useMutation(deleteProductMutation, {
+  const deleteProductMutation = useMutation(() => deleteProduct(id), {
     onSuccess: () => {
       navigate("/");
     },
   });
 
-  const { data, isLoading, isError } = useQuery(`product${id}`, fetchProduct);
+  const { data, isLoading, isError } = useQuery(`product${id}`, () =>
+    fetchSingleProduct(id)
+  );
 
   return (
     <>
@@ -63,7 +53,7 @@ export default function ProductPage() {
           <Button
             variant="danger"
             onClick={() => {
-              deleteProduct.mutate();
+              deleteProductMutation.mutate();
             }}
             style={{ width: "25%", margin: "auto" }}
           >

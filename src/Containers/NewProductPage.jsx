@@ -2,15 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Form, Button, InputGroup } from "react-bootstrap";
-import { API_URLS } from "../constants/apiUrls.js";
 import { useNavigate } from "react-router";
+import { createProductMutation, getAllCategories } from "../utils/fetch";
 
 export default function NewProductPage() {
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useQuery("categories", () =>
-    axios.get(API_URLS.categories).then((res) => res.data)
-  );
-
+  const [validated, setValidated] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
@@ -18,22 +15,16 @@ export default function NewProductPage() {
     imgUrl: "",
     description: "",
   });
-
-  const changeNewProduct = (value, key) => {
-    setNewProduct({ ...newProduct, [key]: value });
-  };
-
-  const createProductMutation = () => {
-    return axios.post(API_URLS.products, newProduct);
-  };
-
-  const createProduct = useMutation(createProductMutation, {
+  const { data, isLoading, isError } = useQuery("categories", getAllCategories);
+  const createProduct = useMutation(() => createProductMutation(newProduct), {
     onSuccess: () => {
       navigate("/");
     },
   });
-  // form to create new product
-  const [validated, setValidated] = useState(false);
+
+  const changeNewProduct = (value, key) => {
+    setNewProduct({ ...newProduct, [key]: value });
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -136,7 +127,6 @@ export default function NewProductPage() {
               })}
           </Form.Select>
         </Form.Group>
-
         <Form.Group md="6" controlId="validationCustom03" className="mb-3">
           <Form.Control
             type="number"
