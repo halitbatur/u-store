@@ -15,7 +15,7 @@ export default function NewProductPage() {
     imgUrl: "",
     description: "",
   });
-  const { data, isLoading, isError } = useQuery("categories", getAllCategories);
+  const { data } = useQuery("categories", getAllCategories);
   const createProduct = useMutation(() => createProductMutation(newProduct), {
     onSuccess: () => {
       navigate("/");

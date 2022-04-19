@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "UPayment Store",
+  "name": "Ecommerce app for UPayment",
   "icons": [
     {
       "src": "favicon.ico",
