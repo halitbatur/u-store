@@ -12,5 +12,3 @@
 - Write some mock fetch tests and UI tests
 - Write more DRY code (I feel like there's some repetetion)
 - Add undo button after deleting and Item
-
-![](./public/logo512.png)
